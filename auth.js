@@ -30,6 +30,11 @@ firebase.auth().onAuthStateChanged((user) => {
     user_uid = user.uid;
     console.log(user_uid);
   }
+  // checks whether the browser ends with itinerary and then calls the function wich displays the data
+  if (window.location.href.endsWith("itinerary.html")) {
+    accessData()
+    console.log("just checking")
+  }
 });
 
 // Data extraction stuff
@@ -47,6 +52,10 @@ var user_adult_code = "";
 var user_adult_number = "";
 var user_adult_email = "";
 
+
+
+// ------------------------------------------- itinerary.html ---------------------------------------------
+
 // Code to get data back and display it on the flight details screen
 function accessData() {
   var databaseRef = database.ref(user_uid);
@@ -61,16 +70,27 @@ function accessData() {
       var departure = data.user_departure;
       var destination = data.user_destination;
       var departure_date = data.user_departure_date;
+      var return_date = data.user_return_date;
 
-      var content = "";
-      content += "<td>" + first_name + "</td>";
-      content += "<td>" + flight_info + "</td>";
-      content += "<td>" + 4091 + "</td>";
-      content += "<td>" + departure + "</td>";
-      content += "<td>" + destination + "</td>";
-      content += "<td>" + departure_date + "</td>";
+      var departure_content = "";
+      departure_content += "<td>" + first_name + "</td>";
+      departure_content += "<td>" + flight_info + "</td>";
+      departure_content += "<td>" + 4091 + "</td>";
+      departure_content += "<td>" + departure + "</td>";
+      departure_content += "<td>" + destination + "</td>";
+      departure_content += "<td>" + departure_date + "</td>";
+
+      var return_content = "";
+      return_content += "<td>" + first_name + "</td>";
+      return_content += "<td>" + flight_info + "</td>";
+      return_content += "<td>" + 4092 + "</td>";
+      return_content += "<td>" + destination + "</td>";
+      return_content += "<td>" + departure + "</td>";
+      return_content += "<td>" + return_date + "</td>";
+
       console.log(snapshot.val());
-      $("#user-table-departure").append(content);
+      $("#user-table-departure").append(departure_content);
+      $("#user-table-return").append(return_content);
     },
     function (errorObject) {
       console.log("The read failed: " + errorObject.code);
@@ -114,7 +134,8 @@ if (booking2Btn) {
   
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      location.href = "http://127.0.0.1:5500/itineary.html";
+      location.href = "http://127.0.0.1:5500/itinerary.html";
+      // location.href = "https://eagle-airways.netlify.app/itinerary.html";
     }, 2000);
   });
 }
@@ -159,6 +180,7 @@ if (booking1Btn) {
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
       location.href = "http://127.0.0.1:5500/booking2.html";
+      // location.href = "https://eagle-airways.netlify.app/booking2.html";
     }, 2000);
   });
 }
