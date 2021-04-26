@@ -24,19 +24,6 @@ var user_uid = "";
 var email = "";
 var password = "";
 
-// setting the uid of the current user
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    user_uid = user.uid;
-    console.log(user_uid);
-  }
-  // checks whether the browser ends with itinerary and then calls the function wich displays the data
-  if (window.location.href.endsWith("itinerary.html")) {
-    accessData()
-    console.log("just checking")
-  }
-});
-
 // Data extraction stuff
 var user_flight_info = "";
 var user_departure = "";
@@ -52,6 +39,17 @@ var user_adult_code = "";
 var user_adult_number = "";
 var user_adult_email = "";
 
+// setting the uid of the current user
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    user_uid = user.uid;
+    console.log(user_uid);
+  }
+  // checks whether the browser ends with itinerary and then calls the function wich displays the data
+  if (window.location.href.endsWith("itinerary.html")) {
+    accessData()
+  }
+});
 
 
 // ------------------------------------------- itinerary.html ---------------------------------------------
@@ -71,6 +69,16 @@ function accessData() {
       var destination = data.user_destination;
       var departure_date = data.user_departure_date;
       var return_date = data.user_return_date;
+
+      // some regex to remove the airport name and keep only the city
+      console.log(departure)
+      console.log(departure.match(/[a-zA-Z]*/g, '')[0])
+
+      departure = departure.match(/[a-zA-Z]*/g, '')[0]
+      destination = destination.match(/[a-zA-Z]*/g, '')[0]
+      // console.log(departure.replaceAll(/[\s][\S][a-zA-Z0-9][\s]*/g, ''))
+      // console.log(departure.replaceAll(/[\s\S[a-zA-Z0-9]*\s[a-zA-Z0-9]*\S[a-zA-Z0-9]*\S+]/g, ''))
+      // console.log(departure.replaceAll(/[^a-z0-9+]/g, ''))
 
       var departure_content = "";
       departure_content += "<td>" + first_name + "</td>";
