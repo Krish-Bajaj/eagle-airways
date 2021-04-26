@@ -46,41 +46,6 @@ var user_adult_last_name = "";
 var user_adult_code = "";
 var user_adult_number = "";
 var user_adult_email = "";
-var user_children_first_name = "";
-var user_children_last_name = "";
-var user_children_date = "";
-function calcValue2() {
-  user_adult_salutation = document.getElementById("user-adult-salutation")
-    .value;
-  user_adult_first_name = document.getElementById("user-adult-first-name")
-    .value;
-  user_adult_last_name = document.getElementById("user-adult-last-name").value;
-  user_adult_code = document.getElementById("user-adult-code").value;
-  user_adult_number = document.getElementById("user-adult-number").value;
-  user_adult_email = document.getElementById("user-adult-email").value;
-  user_children_first_name = document.getElementById("user-children-first-name")
-    .value;
-  user_children_last_name = document.getElementById("user-children-last-name")
-    .value;
-  user_children_date = document.getElementById("user-children-date").value;
-
-  writeUserData2();
-}
-
-// sending data to firebase with UID as the key
-function writeUserData2() {
-  firebase.database().ref(user_uid).update({
-    user_adult_salutation: user_adult_salutation,
-    user_adult_first_name: user_adult_first_name,
-    user_adult_last_name: user_adult_last_name,
-    user_adult_code: user_adult_code,
-    user_adult_number: user_adult_number,
-    user_adult_email: user_adult_email,
-    user_children_first_name: user_children_first_name,
-    user_children_last_name: user_children_last_name,
-    user_children_date: user_children_date,
-  });
-}
 
 // Code to get data back and display it on the flight details screen
 function accessData() {
@@ -113,6 +78,50 @@ function accessData() {
   );
 }
 
+
+// ------------------------------------------- booking2.html ---------------------------------------------
+
+function calcValue2() {
+  user_adult_salutation = document.getElementById("user-adult-salutation")
+    .value;
+  user_adult_first_name = document.getElementById("user-adult-first-name")
+    .value;
+  user_adult_last_name = document.getElementById("user-adult-last-name").value;
+  user_adult_code = document.getElementById("user-adult-code").value;
+  user_adult_number = document.getElementById("user-adult-number").value;
+  user_adult_email = document.getElementById("user-adult-email").value;
+
+  writeUserData2();
+}
+// sending data to firebase with UID as the key
+function writeUserData2() {
+  firebase.database().ref(user_uid).update({
+    user_adult_salutation: user_adult_salutation,
+    user_adult_first_name: user_adult_first_name,
+    user_adult_last_name: user_adult_last_name,
+    user_adult_code: user_adult_code,
+    user_adult_number: user_adult_number,
+    user_adult_email: user_adult_email,
+  });
+}
+const booking2Btn = document.querySelector("#booking2-button");
+if (booking2Btn) {
+  booking2Btn.addEventListener("click", (e) => {
+    e.preventDefault();
+  
+    console.log(user_uid);
+    calcValue2();
+  
+    // needed the timeout function because otherwise the redirection was happening way before data was getting sent
+    setTimeout(function () {
+      location.href = "http://127.0.0.1:5500/itineary.html";
+    }, 2000);
+  });
+}
+
+
+// ------------------------------------------- booking.html ---------------------------------------------
+
 // Sending booking.html data to firebase
 function writeUserData() {
   console.log(user_uid);
@@ -125,9 +134,6 @@ function writeUserData() {
     user_no_of_adults: user_no_of_adults,
   });
 }
-function redirectBooking2() {
-  window.location.href = "http://127.0.0.1:5500/booking2.html";
-}
 // Accessing data
 function calcValue() {
   user_flight_info = document.getElementById("user-flight-info").value;
@@ -137,50 +143,48 @@ function calcValue() {
   user_return_date = document.getElementById("user-return-date").value;
   user_no_of_adults = document.getElementById("user-no-of-adults").value;
 
-  var user_details = [
-    user_flight_info,
-    user_departure,
-    user_destination,
-    user_departure_date,
-    user_return_date,
-    user_no_of_adults,
-  ];
-  console.log(user_details);
-
   // Displaying the data collected from the top
   // document.getElementById("user_display").innerHTML = user_details;
   writeUserData();
 }
 // Button to send data - booking.html
 const booking1Btn = document.querySelector("#booking1-button");
-booking1Btn.addEventListener("click", (e) => {
-  e.preventDefault();
+if (booking1Btn) {
+  booking1Btn.addEventListener("click", (e) => {
+    e.preventDefault();
+  
+    console.log(user_uid);
+    calcValue();
+  
+    // needed the timeout function because otherwise the redirection was happening way before data was getting sent
+    setTimeout(function () {
+      location.href = "http://127.0.0.1:5500/booking2.html";
+    }, 2000);
+  });
+}
 
-  console.log(user_uid);
-  calcValue();
 
-  // needed the timeout function because otherwise the redirection was happening way before data was getting sent
-  setTimeout(function () {
-    location.href = "http://127.0.0.1:5500/booking2.html";
-  }, 2000);
-});
+
+// ---------------------------------------------------- Authentication --------------------------------------------
 
 // Creating a user
 const signUpBtn = document.querySelector("#signup-btn");
-signUpBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  email = document.getElementById("user-email-signup").value;
-  password = document.getElementById("user-password-signup").value;
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .catch((error) => {
-      console.log(error.code);
-      console.log(error.message);
-    });
-  console.log("User created!");
-});
+if (signUpBtn) {
+  signUpBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+  
+    email = document.getElementById("user-email-signup").value;
+    password = document.getElementById("user-password-signup").value;
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
+    console.log("User created!");
+  });
+}
 
 // Logging out the user
 function logoutUser() {
@@ -190,18 +194,20 @@ function logoutUser() {
 
 // Logging in the user
 const loginBtn = document.querySelector("#login-btn");
-loginBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  email = document.getElementById("user-email-login").value;
-  password = document.getElementById("user-password-login").value;
-  console.log(email, password);
-  auth
-    .signInWithEmailAndPassword(email, password)
-    .then((cred) => {
-      console.log("User logged in!");
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-});
+if (loginBtn) {
+  loginBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+  
+    email = document.getElementById("user-email-login").value;
+    password = document.getElementById("user-password-login").value;
+    console.log(email, password);
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((cred) => {
+        console.log("User logged in!");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  });
+}
