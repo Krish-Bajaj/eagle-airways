@@ -39,18 +39,42 @@ var user_adult_code = "";
 var user_adult_number = "";
 var user_adult_email = "";
 
+// ------------------------------------------- onAuthStateChanged ---------------------------------------------
+
 // setting the uid of the current user
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     user_uid = user.uid;
     console.log(user_uid);
+    navbarLogoutButton.style.display = "block";
+    navbarSignupButton.style.display = "none";
+    navbarLoginButton.style.display = "none";
+    if (email) {
+      document.getElementById("navbar-email-display").innerHTML = email;
+    }
+  }
+  else {
+    navbarLogoutButton.style.display = "none";
+    navbarSignupButton.style.display = "block";
+    navbarLoginButton.style.display = "block";
+    document.getElementById("navbar-email-display").innerHTML = '';
   }
   // checks whether the browser ends with itinerary and then calls the function wich displays the data
   if (window.location.href.endsWith("itinerary.html")) {
-    accessData()
+    accessData();
   }
 });
 
+const navbarLogoutButton = document.querySelector("#navbar-logout-button");
+const navbarSignupButton = document.querySelector("#navbar-signup-button");
+const navbarLoginButton = document.querySelector("#navbar-login-button");
+if (navbarLogoutButton) {
+  navbarLogoutButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    logoutUser();
+  });
+}
 
 // ------------------------------------------- itinerary.html ---------------------------------------------
 
@@ -71,11 +95,11 @@ function accessData() {
       var return_date = data.user_return_date;
 
       // some regex to remove the airport name and keep only the city
-      console.log(departure)
-      console.log(departure.match(/[a-zA-Z]*/g, '')[0])
+      console.log(departure);
+      console.log(departure.match(/[a-zA-Z]*/g, "")[0]);
 
-      departure = departure.match(/[a-zA-Z]*/g, '')[0]
-      destination = destination.match(/[a-zA-Z]*/g, '')[0]
+      departure = departure.match(/[a-zA-Z]*/g, "")[0];
+      destination = destination.match(/[a-zA-Z]*/g, "")[0];
       // console.log(departure.replaceAll(/[\s][\S][a-zA-Z0-9][\s]*/g, ''))
       // console.log(departure.replaceAll(/[\s\S[a-zA-Z0-9]*\s[a-zA-Z0-9]*\S[a-zA-Z0-9]*\S+]/g, ''))
       // console.log(departure.replaceAll(/[^a-z0-9+]/g, ''))
@@ -106,7 +130,6 @@ function accessData() {
   );
 }
 
-
 // ------------------------------------------- booking2.html ---------------------------------------------
 
 function calcValue2() {
@@ -136,18 +159,17 @@ const booking2Btn = document.querySelector("#booking2-button");
 if (booking2Btn) {
   booking2Btn.addEventListener("click", (e) => {
     e.preventDefault();
-  
+
     console.log(user_uid);
     calcValue2();
-  
+
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      // location.href = "http://127.0.0.1:5500/itinerary.html";
-      location.href = "https://eagle-airways.netlify.app/itinerary.html";
+      location.href = "http://127.0.0.1:5500/itinerary.html";
+      // location.href = "https://eagle-airways.netlify.app/itinerary.html";
     }, 2000);
   });
 }
-
 
 // ------------------------------------------- booking.html ---------------------------------------------
 
@@ -181,19 +203,17 @@ const booking1Btn = document.querySelector("#booking1-button");
 if (booking1Btn) {
   booking1Btn.addEventListener("click", (e) => {
     e.preventDefault();
-  
+
     console.log(user_uid);
     calcValue();
-  
+
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      // location.href = "http://127.0.0.1:5500/booking2.html";
-      location.href = "https://eagle-airways.netlify.app/booking2.html";
+      location.href = "http://127.0.0.1:5500/booking2.html";
+      // location.href = "https://eagle-airways.netlify.app/booking2.html";
     }, 2000);
   });
 }
-
-
 
 // ---------------------------------------------------- Authentication --------------------------------------------
 
@@ -202,7 +222,7 @@ const signUpBtn = document.querySelector("#signup-btn");
 if (signUpBtn) {
   signUpBtn.addEventListener("click", (e) => {
     e.preventDefault();
-  
+
     email = document.getElementById("user-email-signup").value;
     password = document.getElementById("user-password-signup").value;
     firebase
@@ -227,7 +247,7 @@ const loginBtn = document.querySelector("#login-btn");
 if (loginBtn) {
   loginBtn.addEventListener("click", (e) => {
     e.preventDefault();
-  
+
     email = document.getElementById("user-email-login").value;
     password = document.getElementById("user-password-login").value;
     console.log(email, password);

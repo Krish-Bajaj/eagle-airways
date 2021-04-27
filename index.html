@@ -29,13 +29,20 @@
 						<li><a href="contactus.html">Contact Us</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a style="cursor: pointer;">
+								<span id="navbar-email-display"></span>
+							</a>
+						</li>
+					</ul>
+					<ul id="navbar-login-button" class="nav navbar-nav navbar-right">
 						<li><a href="#myModal" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 					</ul>
-					<ul class="nav navbar-nav navbar-right">
+					<ul id="navbar-signup-button" class="nav navbar-nav navbar-right">
 						<li><a href="#myModalSignUp" data-toggle="modal" data-target="#myModalSignUp"><span class="glyphicon glyphicon-log-in"></span> Sign up</a></li>
 					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a onclick="logoutUser()">Logout</a></li>
+					<ul id="navbar-logout-button" class="nav navbar-nav navbar-right">
+						<li><a style="cursor: pointer;">Logout</a></li>
 					</ul>
 				</div>	
 			</div>
@@ -83,13 +90,15 @@
 				      		<label><b>Password</b></label>
 				      		<input id="user-password-login" type="password" class="form-control" placeholder="Enter Password" name="psw" required>
 				        	<br>
-				      		<button id="login-btn" class="btn btn-block form-control" type="submit" style="background-color: grey; color: white">
-								<a href="newflight.html"><b>Login</b></a>
+				      		<button id="login-btn" class="btn btn-block form-control" type="submit" data-dismiss="modal" style="color: white">
+								<a><b>Login</b></a>
 							</button>
 				        </div>
 
 				        <div class="modal-footer">
-				         	 <button type="button" class="btn btn-block" data-dismiss="modal" style="background-color: grey;"><b>Cancel</b></button>
+				         	<button type="button" class="btn btn-block" data-dismiss="modal" style="background-color: grey;">
+								<b>Cancel</b>
+							</button>
 				        </div>
 				    </div>
 			      
@@ -114,7 +123,7 @@
 				      		<label><b>Password</b></label>
 				      		<input id="user-password-signup" type="password" class="form-control" placeholder="Enter Password" name="psw" required>
 				        	<br>
-				      		<button id="signup-btn" class="btn btn-block form-control" type="submit" style="color: white">
+				      		<button id="signup-btn" class="btn btn-block form-control" type="submit" data-dismiss="modal" style="color: white">
 								<a><b>Sign up</b></a>
 							</button>
 						</form>
