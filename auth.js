@@ -23,6 +23,7 @@ var functions = firebase.functions();
 var user_uid = "";
 var email = "";
 var password = "";
+var setError = "";
 
 // Data extraction stuff
 var user_flight_info = "";
@@ -43,9 +44,21 @@ var user_adult_email = "";
 
 // setting the uid of the current user
 firebase.auth().onAuthStateChanged((user) => {
+  if(!setError && alertText) {
+    alertText.style.display = "none"
+  } else if(setError && alertText) {
+    alertText.style.display = "none"
+  }
+
   if (user) {
     user_uid = user.uid;
     console.log(user_uid);
+    if(navbarBookingButton) {
+      navbarBookingButton.style.display = "block";
+    }
+    if(navbarItineraryButton) {
+      navbarItineraryButton.style.display = "block";
+    }
     if(navbarLogoutButton) {
       navbarLogoutButton.style.display = "block";
     }
@@ -55,11 +68,17 @@ firebase.auth().onAuthStateChanged((user) => {
     if(navbarLoginButton) {
       navbarLoginButton.style.display = "none";
     }
-    if (email) {
-      document.getElementById("navbar-email-display").innerHTML = email;
+    if(document.getElementById("navbar-email-display")) {
+      document.getElementById("navbar-email-display").innerHTML = user.email;
     }
   }
   else {
+    if(navbarBookingButton) {
+      navbarBookingButton.style.display = "none";
+    }
+    if(navbarItineraryButton) {
+      navbarItineraryButton.style.display = "none";
+    }
     if(navbarLogoutButton) {
       navbarLogoutButton.style.display = "none";
     }
@@ -76,6 +95,10 @@ firebase.auth().onAuthStateChanged((user) => {
     accessData();
   }
 });
+
+const navbarBookingButton = document.querySelector("#navbar-booking-button");
+const navbarItineraryButton = document.querySelector("#navbar-itinerary-button");
+const alertText = document.querySelector("#alert-box");
 
 const navbarLogoutButton = document.querySelector("#navbar-logout-button");
 const navbarSignupButton = document.querySelector("#navbar-signup-button");
@@ -181,8 +204,8 @@ if (booking2Btn) {
 
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      // location.href = "http://127.0.0.1:5500/itinerary.html";
-      location.href = "https://eagle-airways.netlify.app/itinerary.html";
+      location.href = "http://127.0.0.1:5500/itinerary.html";
+      // location.href = "https://eagle-airways.netlify.app/itinerary.html";
     }, 2000);
   });
 }
@@ -225,8 +248,8 @@ if (booking1Btn) {
 
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      // location.href = "http://127.0.0.1:5500/booking2.html";
-      location.href = "https://eagle-airways.netlify.app/booking2.html";
+      location.href = "http://127.0.0.1:5500/booking2.html";
+      // location.href = "https://eagle-airways.netlify.app/booking2.html";
     }, 2000);
   });
 }
@@ -245,8 +268,13 @@ if (signUpBtn) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
+        // setting error message
+        setError = error.message
+        console.log(setError)
+        alertText.style.display = "block"
+        alertText.innerHTML = setError
+        // console.log(error.code);
+        // console.log(error.message);
       });
     console.log("User created!");
   });
@@ -273,7 +301,11 @@ if (loginBtn) {
         console.log("User logged in!");
       })
       .catch((error) => {
-        console.log(error.message);
+        // setting error message
+        setError = error.message
+        console.log(setError)
+        alertText.style.display = "block"
+        alertText.innerHTML = setError
       });
   });
 }
