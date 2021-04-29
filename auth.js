@@ -105,6 +105,7 @@ function accessData() {
       var destination = data.user_destination;
       var departure_date = data.user_departure_date;
       var return_date = data.user_return_date;
+      var no_of_adults = data.user_no_of_adults;
 
       // some regex to remove the airport name and keep only the city
       console.log(departure);
@@ -135,6 +136,9 @@ function accessData() {
       console.log(snapshot.val());
       $("#user-table-departure").append(departure_content);
       $("#user-table-return").append(return_content);
+
+      // Dynamic value for payment
+      document.getElementById("total-payment").innerHTML = `${50000 * parseInt(no_of_adults)}`;
     },
     function (errorObject) {
       console.log("The read failed: " + errorObject.code);
