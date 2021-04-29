@@ -204,8 +204,8 @@ if (booking2Btn) {
 
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      location.href = "http://127.0.0.1:5500/itinerary.html";
-      // location.href = "https://eagle-airways.netlify.app/itinerary.html";
+      // location.href = "http://127.0.0.1:5500/itinerary.html";
+      location.href = "https://eagle-airways.netlify.app/itinerary.html";
     }, 2000);
   });
 }
@@ -248,8 +248,8 @@ if (booking1Btn) {
 
     // needed the timeout function because otherwise the redirection was happening way before data was getting sent
     setTimeout(function () {
-      location.href = "http://127.0.0.1:5500/booking2.html";
-      // location.href = "https://eagle-airways.netlify.app/booking2.html";
+      // location.href = "http://127.0.0.1:5500/booking2.html";
+      location.href = "https://eagle-airways.netlify.app/booking2.html";
     }, 2000);
   });
 }
@@ -273,8 +273,6 @@ if (signUpBtn) {
         console.log(setError)
         alertText.style.display = "block"
         alertText.innerHTML = setError
-        // console.log(error.code);
-        // console.log(error.message);
       });
     console.log("User created!");
   });
