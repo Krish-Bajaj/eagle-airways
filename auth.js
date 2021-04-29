@@ -46,17 +46,29 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     user_uid = user.uid;
     console.log(user_uid);
-    navbarLogoutButton.style.display = "block";
-    navbarSignupButton.style.display = "none";
-    navbarLoginButton.style.display = "none";
+    if(navbarLogoutButton) {
+      navbarLogoutButton.style.display = "block";
+    }
+    if(navbarSignupButton) {
+      navbarSignupButton.style.display = "none";
+    }
+    if(navbarLoginButton) {
+      navbarLoginButton.style.display = "none";
+    }
     if (email) {
       document.getElementById("navbar-email-display").innerHTML = email;
     }
   }
   else {
-    navbarLogoutButton.style.display = "none";
-    navbarSignupButton.style.display = "block";
-    navbarLoginButton.style.display = "block";
+    if(navbarLogoutButton) {
+      navbarLogoutButton.style.display = "none";
+    }
+    if(navbarSignupButton) {
+      navbarSignupButton.style.display = "block";
+    }
+    if(navbarLoginButton) {
+      navbarLoginButton.style.display = "block";
+    }
     document.getElementById("navbar-email-display").innerHTML = '';
   }
   // checks whether the browser ends with itinerary and then calls the function wich displays the data
